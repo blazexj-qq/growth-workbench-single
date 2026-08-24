@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>成长·升学一体化工作台（单文件版）</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- 左侧栏（参照 React 版：品牌 + 分组菜单 + 底部折叠按钮） -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="ico" data-ico="rocket"></span><span class="txt">成长·升学工作台</span></div>
+      <nav class="sidebar-menu" id="sidebar-menu">
+        <a data-page="home" class="active"><span class="ico" data-ico="dashboard"></span><span class="txt">成长驾驶舱</span></a>
+        <div class="menu-group">
+          <div class="menu-group-title">记录</div>
+          <a data-page="archive"><span class="ico" data-ico="idcard"></span><span class="txt">档案</span></a>
+          <a data-page="score"><span class="ico" data-ico="line-chart"></span><span class="txt">成绩</span></a>
+          <a data-page="health"><span class="ico" data-ico="heart"></span><span class="txt">身心</span></a>
+          <a data-page="ability"><span class="ico" data-ico="fund"></span><span class="txt">学习能力</span></a>
+          <a data-page="nutrition"><span class="ico" data-ico="medicine-box"></span><span class="txt">营养膳食</span></a>
+          <a data-page="parenting"><span class="ico" data-ico="team"></span><span class="txt">亲子互动</span></a>
+          <a data-page="interest"><span class="ico" data-ico="star"></span><span class="txt">兴趣阅读</span></a>
+          <a data-page="comprehensive"><span class="ico" data-ico="trophy"></span><span class="txt">五育综评</span></a>
+          <a data-page="homeSchool"><span class="ico" data-ico="book"></span><span class="txt">家校沟通</span></a>
+        </div>
+        <div class="menu-group">
+          <div class="menu-group-title">规划</div>
+          <a data-page="school"><span class="ico" data-ico="compass"></span><span class="txt">择校</span></a>
+          <a data-page="admission"><span class="ico" data-ico="rocket"></span><span class="txt">升学</span></a>
+          <a data-page="weekly"><span class="ico" data-ico="file-text"></span><span class="txt">周报</span></a>
+          <a data-page="habit"><span class="ico" data-ico="calendar"></span><span class="txt">习惯</span></a>
+          <a data-page="goal"><span class="ico" data-ico="aim"></span><span class="txt">目标</span></a>
+          <a data-page="career"><span class="ico" data-ico="bulb"></span><span class="txt">生涯探索</span></a>
+          <a data-page="experience"><span class="ico" data-ico="solution"></span><span class="txt">职业体验</span></a>
+        </div>
+        <div class="menu-group">
+          <div class="menu-group-title">数据</div>
+          <a data-page="sync"><span class="ico" data-ico="safety-certificate"></span><span class="txt">同步备份</span></a>
+        </div>
+      </nav>
+      <button class="sidebar-toggle" id="sidebar-toggle" title="折叠/展开侧栏">‹</button>
+    </aside>
+
+    <!-- 主区：顶栏(左标题 / 中搜索 / 右铃铛+设置) + 内容 -->
+    <div class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="kid-avatar" id="kid-avatar">宝</div>
+          <div class="kid-info">
+            <div class="name" id="kid-name">小宝 · 四年级</div>
+            <div class="school" id="kid-school">南京市栖霞区某小学</div>
+          </div>
+          <div class="topbar-title" id="topbar-title" style="margin-left:8px;">成长驾驶舱</div>
+        </div>
+        <div class="topbar-center">
+          <div class="search-box">
+            <span class="search-ico" data-ico="search"></span>
+            <input id="global-search" placeholder="搜索模块 / 记录 / 政策" autocomplete="off" />
+            <div id="search-results" class="search-dropdown"></div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="alert-wrap">
+            <a class="topbar-icon" id="alert-btn" title="预警中心"><span class="antd-icon lg" data-ico="alert"></span><span id="alert-count" class="badge hidden">0</span></a>
+            <div id="alert-dropdown" class="alert-dropdown"></div>
+          </div>
+          <div class="settings-wrap">
+            <a class="topbar-icon" id="settings-btn" title="设置"><span class="antd-icon lg" data-ico="safety-certificate"></span></a>
+            <div id="settings-dropdown" class="settings-dropdown">
+              <div class="settings-head">设置</div>
+              <a class="settings-item" data-act="sync"><span class="ico" data-ico="safety-certificate"></span><span>同步备份</span></a>
+              <a class="settings-item" data-act="guide"><span class="ico" data-ico="file-text"></span><span>数据保全说明</span></a>
+              <a class="settings-item" data-act="about"><span class="ico" data-ico="alert"></span><span>关于本工作台</span></a>
+            </div>
+          </div>
+          <a class="topbar-link" id="guide-link" title="查看数据保全说明">数据保全说明</a>
+          <span class="topbar-ver">v0.5.2</span>
+        </div>
+      </header>
+
+      <!-- 应用挂载点：各模块渲染到这里 -->
+      <main id="app" class="content"></main>
+
+<footer class="footer">
+      本地优先 · 数据存本机浏览器（localStorage）· 单文件版 v0.5
+    </footer>
+    </div>
+
+    <!-- 移动端底栏 tab（可横向滑动，覆盖全部页面） -->
+    <nav class="mobile-tabbar" id="mobile-tabbar">
+      <a data-page="home"><span class="ico" data-ico="dashboard"></span><span class="txt">驾驶舱</span></a>
+      <a data-page="archive"><span class="ico" data-ico="idcard"></span><span class="txt">档案</span></a>
+      <a data-page="score"><span class="ico" data-ico="line-chart"></span><span class="txt">成绩</span></a>
+      <a data-page="health"><span class="ico" data-ico="heart"></span><span class="txt">身心</span></a>
+      <a data-page="ability"><span class="ico" data-ico="fund"></span><span class="txt">能力</span></a>
+      <a data-page="nutrition"><span class="ico" data-ico="medicine-box"></span><span class="txt">营养</span></a>
+      <a data-page="parenting"><span class="ico" data-ico="team"></span><span class="txt">亲子</span></a>
+      <a data-page="school"><span class="ico" data-ico="compass"></span><span class="txt">择校</span></a>
+      <a data-page="admission"><span class="ico" data-ico="rocket"></span><span class="txt">升学</span></a>
+      <a data-page="weekly"><span class="ico" data-ico="file-text"></span><span class="txt">周报</span></a>
+      <a data-page="habit"><span class="ico" data-ico="calendar"></span><span class="txt">习惯</span></a>
+      <a data-page="goal"><span class="ico" data-ico="aim"></span><span class="txt">目标</span></a>
+      <a data-page="interest"><span class="ico" data-ico="star"></span><span class="txt">阅读</span></a>
+      <a data-page="comprehensive"><span class="ico" data-ico="trophy"></span><span class="txt">五育</span></a>
+      <a data-page="homeSchool"><span class="ico" data-ico="book"></span><span class="txt">家校</span></a>
+      <a data-page="career"><span class="ico" data-ico="bulb"></span><span class="txt">生涯</span></a>
+      <a data-page="experience"><span class="ico" data-ico="solution"></span><span class="txt">体验</span></a>
+      <a data-page="sync"><span class="ico" data-ico="safety-certificate"></span><span class="txt">同步</span></a>
+    </nav>
+  </div>
+
+  <!-- 第三方图表库：本地优先（随 html 一起走，断网也能画图）；缺失时自动回退 CDN。严禁 ES module import -->
+  <script src="js/lib/antd-sprite.js"></script>
+  <script src="js/lib/echarts.min.js"></script>
+  <script>
+    if (typeof window.echarts === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"><\/script>');
+    }
+  </script>
+  <!-- 本地状态层（命名空间 window.App） -->
+  <script src="js/store.js"></script>
+  <!-- 工具与备份（经典 script） -->
+  <script src="js/util.js"></script>
+  <script src="js/backup.js"></script>
+  <!-- 演示数据种子（v0.5.2，演示数据隔离在 seed: 前缀键） -->
+  <script src="js/seed.js"></script>
+  <!-- 通用工具（预警生成 + 全局搜索） -->
+  <script src="js/modules/alerts.js"></script>
+  <script src="js/modules/search.js"></script>
+  <!-- 功能模块（经典 script，挂 window.App.pages.*） -->
+  <script src="js/modules/profile.js"></script>
+  <script src="js/modules/score.js"></script>
+  <script src="js/modules/body.js"></script>
+  <script src="js/modules/ability.js"></script>
+  <script src="js/modules/nutrition.js"></script>
+  <script src="js/modules/parenting.js"></script>
+  <script src="js/modules/interest.js"></script>
+  <script src="js/modules/comprehensive.js"></script>
+  <script src="js/modules/homeSchool.js"></script>
+  <script src="js/modules/career.js"></script>
+  <script src="js/modules/experience.js"></script>
+  <script src="js/modules/school.js"></script>
+  <script src="js/modules/upcoming.js"></script>
+  <script src="js/modules/weekly.js"></script>
+  <script src="js/modules/habit.js"></script>
+  <script src="js/modules/goal.js"></script>
+  <script src="js/modules/dashboard.js"></script>
+  <script src="js/modules/sync.js"></script>
+
+  <!-- 引导脚本：导航映射 + 统一跳转 + 顶栏搜索/预警/侧栏折叠 + 图表生命周期 -->
+  <script>
+    (function () {
+      'use strict'
+      var app = document.getElementById('app')
+      var sidebar = document.getElementById('sidebar')
+      var menuLinks = document.querySelectorAll('a[data-page]')
+      var titleEl = document.getElementById('topbar-title')
+
+      // 导航映射：data-page -> App.pages 函数名
+      var pageMap = {
+        home: 'dashboard', archive: 'profile', score: 'score',
+        health: 'body', ability: 'ability', nutrition: 'nutrition',
+        parenting: 'parenting', interest: 'interest', comprehensive: 'comprehensive',
+        homeSchool: 'homeSchool', career: 'career', experience: 'experience',
+        school: 'school', admission: 'upcoming',
+        weekly: 'weekly', habit: 'habit', goal: 'goal', sync: 'sync'
+      }
+      var titleMap = {
+        home: '成长驾驶舱', archive: '档案', score: '成绩',
+        health: '身心', ability: '学习能力', nutrition: '营养膳食',
+        parenting: '亲子互动', interest: '兴趣阅读', comprehensive: '五育综评',
+        homeSchool: '家校沟通', career: '生涯探索', experience: '职业体验',
+        school: '择校', admission: '升学',
+        weekly: '周报', habit: '习惯', goal: '目标管理', sync: '同步备份'
+      }
+
+      // 图表实例登记
+      window.App.charts = []
+      window.App.disposeCharts = function () {
+        for (var i = 0; i < window.App.charts.length; i++) {
+          try { window.App.charts[i].dispose() } catch (e) {}
+        }
+        window.App.charts.length = 0
+      }
+
+      window.App.go = function (page) {
+        var el = document.querySelector('a[data-page="' + page + '"]')
+        if (el) el.click()
+      }
+
+      // 关闭所有顶栏下拉
+      function closeDropdowns() {
+        var sr = document.getElementById('search-results'); if (sr) sr.classList.remove('open')
+        var ad = document.getElementById('alert-dropdown'); if (ad) ad.classList.remove('open')
+      }
+      window.App.closeDropdowns = closeDropdowns
+
+      // 顶栏孩子档案（每切页面刷新一次）
+      function updateTopbarKid() {
+        var p = App.store.get('profile', {})
+        var name = p.name || '小宝'
+        var school = p.school || '去「档案」补全学校'
+        var grade = (App.calcGrade) ? App.calcGrade(p.birthday, p.gradeOverride) : '—'
+        var av = document.getElementById('kid-avatar')
+        var kn = document.getElementById('kid-name')
+        var ks = document.getElementById('kid-school')
+        if (av) av.textContent = name.substring(0, 1) || '🌱'
+        if (kn) kn.textContent = name + ' · ' + grade
+        if (ks) ks.textContent = school
+      }
+      window.App.updateTopbarKid = updateTopbarKid
+
+      function show(page) {
+        window.App.disposeCharts()
+        var fnName = pageMap[page] || 'dashboard'
+        var fn = window.App.pages && window.App.pages[fnName]
+        if (typeof fn === 'function') {
+          try {
+            fn(app)
+          } catch (e) {
+            // 兜底：渲染出错时不白屏，显示可读错误，方便排查
+            console.error('[render error]', fnName, e)
+            app.innerHTML = '<div class="card"><h3>页面渲染出错了</h3><p>' + App.esc(e && e.message ? e.message : String(e)) + '</p><p class="muted">已自动回退。请先刷新重试；若仍出现，把上面的报错发给维护者。</p></div>'
+          }
+        } else app.innerHTML = '<div class="card">页面加载失败：' + fnName + '</div>'
+        for (var i = 0; i < menuLinks.length; i++) {
+          menuLinks[i].classList.toggle('active', menuLinks[i].getAttribute('data-page') === page)
+        }
+        if (titleEl && titleMap[page]) titleEl.textContent = titleMap[page]
+        closeDropdowns()
+        updateTopbarKid()
+        // 切换页面时刷新预警角标
+        if (typeof App.alerts !== 'undefined' && App.alerts.refresh) App.alerts.refresh()
+      }
+      window.App.show = show
+
+      // 统一导航点击
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest('a[data-page]')
+        if (!a) return
+        e.preventDefault()
+        show(a.getAttribute('data-page'))
+      })
+
+      window.addEventListener('resize', function () {
+        for (var i = 0; i < window.App.charts.length; i++) {
+          try { window.App.charts[i].resize() } catch (e) {}
+        }
+      })
+
+      // 顶栏「数据保全说明」
+      var guideLink = document.getElementById('guide-link')
+      if (guideLink) guideLink.addEventListener('click', function (e) {
+        e.preventDefault()
+        if (typeof App.showGuide === 'function') App.showGuide()
+      })
+
+      // 把所有 [data-ico] 占位符填成 AntD 单色 SVG（侧栏/顶栏/移动 tabbar）
+      function paintAntdIcons() {
+        document.querySelectorAll('[data-ico]').forEach(function (el) {
+          var n = el.getAttribute('data-ico')
+          if (n && App.icon) el.innerHTML = App.icon(n)
+        })
+      }
+      paintAntdIcons()
+
+      // 顶栏「设置」→ 下拉菜单
+      var settingsBtn = document.getElementById('settings-btn')
+      var settingsDD = document.getElementById('settings-dropdown')
+      function closeSettings() { if (settingsDD) settingsDD.classList.remove('open') }
+      if (settingsBtn && settingsDD) {
+        settingsBtn.addEventListener('click', function (e) {
+          e.preventDefault(); e.stopPropagation()
+          settingsDD.classList.toggle('open')
+          if (alertDD) alertDD.classList.remove('open')
+          if (searchResults) searchResults.classList.remove('open')
+        })
+        settingsDD.querySelectorAll('[data-act]').forEach(function (el) {
+          el.addEventListener('click', function () {
+            var act = el.getAttribute('data-act')
+            closeSettings()
+            if (act === 'sync') App.go('sync')
+            else if (act === 'guide' && App.showGuide) App.showGuide()
+            else if (act === 'about' && App.showAbout) App.showAbout()
+          })
+        })
+      }
+
+      // 侧栏折叠
+      var toggle = document.getElementById('sidebar-toggle')
+      function applyCollapsed(c) {
+        if (c) sidebar.classList.add('collapsed'); else sidebar.classList.remove('collapsed')
+        if (toggle) toggle.textContent = c ? '›' : '‹'
+      }
+      applyCollapsed(App.store.get('sidebarCollapsed', false) === true)
+      if (toggle) toggle.addEventListener('click', function () {
+        var c = sidebar.classList.toggle('collapsed')
+        toggle.textContent = c ? '›' : '‹'
+        App.store.set('sidebarCollapsed', c)
+      })
+
+      // 顶栏全局搜索
+      var searchInput = document.getElementById('global-search')
+      var searchResults = document.getElementById('search-results')
+      if (searchInput && searchResults && App.search) {
+        searchInput.addEventListener('input', function () {
+          var q = searchInput.value
+          if (!q.trim()) { searchResults.classList.remove('open'); return }
+          var items = App.search.query(q)
+          if (!items.length) {
+            searchResults.innerHTML = '<div class="search-empty">没有匹配记录</div>'
+          } else {
+            searchResults.innerHTML = items.map(function (it, i) {
+              return '<div class="search-item" data-i="' + i + '"><span class="kind">' + App.esc(it.kind) + '</span>' + App.esc(it.label) + '</div>'
+            }).join('')
+            searchResults._items = items
+            searchResults.querySelectorAll('.search-item').forEach(function (el) {
+              el.addEventListener('click', function () {
+                var it = (searchResults._items || [])[Number(el.getAttribute('data-i'))]
+                if (it) App.go(it.target)
+                searchResults.classList.remove('open')
+                searchInput.value = ''
+              })
+            })
+          }
+          searchResults.classList.add('open')
+        })
+        searchInput.addEventListener('focus', function () {
+          if (searchInput.value.trim()) searchInput.dispatchEvent(new Event('input'))
+        })
+      }
+
+      // 顶栏预警铃铛
+      var alertBtn = document.getElementById('alert-btn')
+      var alertDD = document.getElementById('alert-dropdown')
+      var alertCount = document.getElementById('alert-count')
+      function renderAlert() {
+        if (!App.alerts) return
+        var list = App.alerts.list()
+        if (alertCount) {
+          if (list.length) {
+            alertCount.textContent = list.length > 99 ? '99+' : list.length
+            alertCount.classList.remove('hidden')
+            var urgentN = list.filter(function (a) { return a.level === 'urgent' }).length
+            alertCount.classList.toggle('urgent', urgentN > 0)
+          } else {
+            alertCount.classList.add('hidden')
+          }
+        }
+        if (alertDD) {
+          alertDD.innerHTML = list.length
+            ? list.map(function (a) {
+                return '<div class="alert-item" data-mod="' + App.esc(a.module) + '"><span class="lvl lvl-' + (a.level === 'urgent' ? 'urgent' : 'warn') + '">' + (a.level === 'urgent' ? '紧急' : '提示') + '</span>' + App.esc(a.title) + '<div style="font-size:11px;color:var(--muted);margin-top:2px;">' + App.esc(a.desc) + '</div></div>'
+              }).join('')
+            : '<div class="alert-empty">暂无预警 👍</div>'
+          alertDD.querySelectorAll('[data-mod]').forEach(function (el) {
+            el.addEventListener('click', function () {
+              App.go(el.getAttribute('data-mod'))
+              alertDD.classList.remove('open')
+            })
+          })
+        }
+      }
+      App.alerts = App.alerts || {}
+      App.alerts.refresh = renderAlert
+      renderAlert()
+      if (alertBtn && alertDD) {
+        alertBtn.addEventListener('click', function (e) {
+          e.preventDefault(); e.stopPropagation()
+          alertDD.classList.toggle('open')
+          if (searchResults) searchResults.classList.remove('open')
+        })
+      }
+
+      // 点击外部关闭下拉
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('.search-box')) searchResults && searchResults.classList.remove('open')
+        if (!e.target.closest('.alert-wrap')) alertDD && alertDD.classList.remove('open')
+        if (!e.target.closest('.settings-wrap')) settingsDD && settingsDD.classList.remove('open')
+      })
+
+      // 轻量 modal（关于）
+      App.modal = function (title, bodyHtml) {
+        var mask = document.getElementById('gw-modal-mask')
+        if (!mask) {
+          mask = document.createElement('div')
+          mask.id = 'gw-modal-mask'
+          mask.className = 'gw-modal-mask'
+          mask.innerHTML = '<div class="gw-modal"><h3 id="gw-modal-title"></h3><div id="gw-modal-body"></div><button class="btn primary" id="gw-modal-ok">知道了</button></div>'
+          document.body.appendChild(mask)
+          mask.addEventListener('click', function (e) { if (e.target === mask) mask.classList.remove('open') })
+          document.getElementById('gw-modal-ok').addEventListener('click', function () { mask.classList.remove('open') })
+        }
+        document.getElementById('gw-modal-title').textContent = title
+        document.getElementById('gw-modal-body').innerHTML = bodyHtml
+        mask.classList.add('open')
+      }
+      App.showAbout = function () {
+        App.modal('关于本工作台',
+          '<p><b>版本</b>：v0.5.2（单文件版）</p>' +
+          '<p><b>定位</b>：日常主力，本地优先，数据存浏览器 localStorage</p>' +
+          '<p><b>图标</b>：AntD 5 Outline（本地 SVG Sprite，断网可用）</p>' +
+          '<p><b>说明</b>：React 版已冻结，仅作参考蓝本；三者数据不自动同步</p>')
+      }
+
+      // 首屏
+      show('home')
+      // 首启自动注入演示数据（仅第一次；老用户刷新也能看到 v0.5 双栏效果）
+      try { if (App.demo && App.demo.bootstrap && App.demo.bootstrap()) console.info('[seed] 已自动注入演示数据') } catch (e) {}
+      // 出厂数据保全引导
+      if (typeof App.showGuide === 'function') App.showGuide()
+    })()
+  </script>
+</body>
+</html>
